@@ -56,24 +56,19 @@ public class Config {
         System.out.print("Enter Price :: ");
         int price= Integer.parseInt(bf.readLine());
 
-        // Create CriteriaBuilder
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//        CriteriaUpdate<Book> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Book.class);
+//        Root<Book> root = criteriaUpdate.from(Book.class);
+//        criteriaUpdate.set(root.get("price"), price);
+//        criteriaUpdate.where(criteriaBuilder.equal(root.get("bookName"), bookName));
+//        int updatedRowCount = session.createQuery(criteriaUpdate).executeUpdate();
 
-        // Create CriteriaUpdate
-        CriteriaUpdate<Book> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Book.class);
 
-        // Set the root entity
-        Root<Book> root = criteriaUpdate.from(Book.class);
+        Query query=session.createQuery("update  Book set  price =:y where bookname =:x ");
+        query.setParameter("x",bookName);
+        query.setParameter("y",price);
 
-        // Set the update values
-        criteriaUpdate.set(root.get("price"), price);
-
-        // Set the where condition
-        criteriaUpdate.where(criteriaBuilder.equal(root.get("bookName"), bookName));
-
-        // Execute the update
-        int updatedRowCount = session.createQuery(criteriaUpdate).executeUpdate();
-
+        int updatedRowCount= query.executeUpdate();
         if (updatedRowCount > 0) {
             System.out.println("Book updated successfully.");
         } else {
@@ -90,23 +85,21 @@ public class Config {
     public static void deleteData() throws IOException {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
+
         System.out.print("Enter BookName :: ");
         String bookName= bf.readLine();
 
-        // Create CriteriaBuilder
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//        CriteriaDelete<Book> criteriaDelete = criteriaBuilder.createCriteriaDelete(Book.class);
+//        Root<Book> root = criteriaDelete.from(Book.class);
+//        criteriaDelete.where(criteriaBuilder.equal(root.get("bookName"), bookName));
 
-        // Create CriteriaDelete
-        CriteriaDelete<Book> criteriaDelete = criteriaBuilder.createCriteriaDelete(Book.class);
 
-        // Set the root entity
-        Root<Book> root = criteriaDelete.from(Book.class);
 
-        // Set the where condition
-        criteriaDelete.where(criteriaBuilder.equal(root.get("bookName"), bookName));
+        Query query=session.createQuery("delete from Book where bookname =:x ");
+        query.setParameter("x",bookName);
 
-        // Execute the delete
-        int deletedRowCount = session.createQuery(criteriaDelete).executeUpdate();
+        int deletedRowCount = query.executeUpdate();
 
         if (deletedRowCount > 0) {
             System.out.println("Book deleted successfully.");
@@ -127,6 +120,7 @@ public class Config {
     public static  void showData(){
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
+
 //        List<Book> books = (List<Book>) ((org.hibernate.query.Query<?>) query).list();
 
         Query query = session.createQuery("FROM Book");

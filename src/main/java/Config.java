@@ -127,10 +127,10 @@ public class Config {
     public static  void showData(){
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Book book1 = new Book();
-        Query query = session.createQuery("FROM Book");
-        List<Book> books = (List<Book>) ((org.hibernate.query.Query<?>) query).list();
+//        List<Book> books = (List<Book>) ((org.hibernate.query.Query<?>) query).list();
 
+        Query query = session.createQuery("FROM Book");
+        List<Book> books=query.getResultList();
         if (!books.isEmpty()) {
             System.out.println("All Books:");
             for (Book book : books) {

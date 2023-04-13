@@ -16,6 +16,8 @@ public class menu {
             System.out.println("2. Update");
             System.out.println("3. Delete");
             System.out.println("4. Show Data");
+            System.out.println("5. book price range");
+
             System.out.print("Enter your choice: ");
             int choice = Integer.parseInt(br.readLine());
 
@@ -38,6 +40,10 @@ public class menu {
 
                 case 4:
                     Config.showData();
+                    break;
+
+                case 5:
+                    Config.higherprice();
                     break;
 
                 default:

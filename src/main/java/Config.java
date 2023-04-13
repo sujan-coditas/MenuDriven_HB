@@ -56,12 +56,6 @@ public class Config {
         System.out.print("Enter Price :: ");
         int price= Integer.parseInt(bf.readLine());
 
-//        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-//        CriteriaUpdate<Book> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Book.class);
-//        Root<Book> root = criteriaUpdate.from(Book.class);
-//        criteriaUpdate.set(root.get("price"), price);
-//        criteriaUpdate.where(criteriaBuilder.equal(root.get("bookName"), bookName));
-//        int updatedRowCount = session.createQuery(criteriaUpdate).executeUpdate();
 
 
         Query query=session.createQuery("update  Book set  price =:y where bookname =:x ");
@@ -89,10 +83,6 @@ public class Config {
         System.out.print("Enter BookName :: ");
         String bookName= bf.readLine();
 
-//        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-//        CriteriaDelete<Book> criteriaDelete = criteriaBuilder.createCriteriaDelete(Book.class);
-//        Root<Book> root = criteriaDelete.from(Book.class);
-//        criteriaDelete.where(criteriaBuilder.equal(root.get("bookName"), bookName));
 
 
 
@@ -132,6 +122,25 @@ public class Config {
             }
         } else {
             System.out.println("No books found.");
+        }
+
+        tx.commit();
+        session.close();
+
+    }
+    public static void higherprice() throws IOException {
+        Session session= sessionFactory.openSession();
+        Transaction tx= session.beginTransaction();
+
+        System.out.print("fetch data of books whose price greater than ");
+        int price= Integer.parseInt(bf.readLine());
+
+        Query query= session.createQuery("FROM Book b WHERE b.price > :price", Book.class);
+        query.setParameter("price",price);
+
+        List<Book> books=query.getResultList();
+        for (Book book : books) {
+            System.out.println(book.toString());
         }
 
         tx.commit();
